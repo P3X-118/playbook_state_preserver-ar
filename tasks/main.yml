@@ -6,11 +6,11 @@
       You need to define a required configuration setting (`{{ item }}`) for using this role.
   when: "lookup('vars', item, default='') | string | length == 0"
   with_items:
-    - devture_playbook_state_preserver_uid
-    - devture_playbook_state_preserver_gid
+    - playbook_state_preserve_uid
+    - playbook_state_preserve_gid
 
-- when: devture_playbook_state_preserver_vars_preservation_enabled | bool
+- when: playbook_state_preserve_vars | bool
   ansible.builtin.import_tasks: "{{ role_path }}/tasks/preserve_vars.yml"
 
-- when: devture_playbook_state_preserver_commit_hash_preservation_enabled | bool
+- when: playbook_state_commit_hash | bool
   ansible.builtin.import_tasks: "{{ role_path }}/tasks/preserve_commit_hash.yml"

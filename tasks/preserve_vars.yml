@@ -6,12 +6,12 @@
       You need to define a required configuration setting (`{{ item }}`) for using vars.yml-preservation.
   when: "lookup('vars', item, default='') | string | length == 0"
   with_items:
-    - devture_playbook_state_preserver_vars_preservation_dst
+    - playbook_state_var_dst
 
 - name: Preserve vars.yml on the server for easily restoring if it gets lost later on
   ansible.builtin.copy:
-    src: "{{ devture_playbook_state_preserver_vars_preservation_src }}"
-    dest: "{{ devture_playbook_state_preserver_vars_preservation_dst }}"
-    owner: "{{ devture_playbook_state_preserver_uid }}"
-    group: "{{ devture_playbook_state_preserver_gid }}"
-    mode: "{{ devture_playbook_state_preserver_mode }}"
+    src: "{{ playbook_state_var_src }}"
+    dest: "{{ playbook_state_var_dst }}"
+    owner: "{{ playbook_state_preserve_uid }}"
+    group: "{{ playbook_state_preserve_gid }}"
+    mode: "{{ playbook_state_preserve_mode }}"

@@ -11,7 +11,7 @@ Example playbook:
 ```yaml
 - hosts: servers
   roles:
-    - when: devture_playbook_state_preserver_enabled | bool
+    - when: playbook_state_preserve | bool
       role: galaxy/com.devture.ansible.role.playbook_state_preserver
       # Uncomment to make it run on some tags only, not always
       # tags:
@@ -21,10 +21,10 @@ Example playbook:
 Example configuration (see `defaults/main.yml` for more):
 
 ```yaml
-devture_playbook_state_preserver_uid: 1000
-devture_playbook_state_preserver_gid: 1000
+playbook_state_preserve_uid: 1000
+playbook_state_preserve_gid: 1000
 
-devture_playbook_state_preserver_vars_preservation_dst: /path/on-server/to/vars.yml
+playbook_state_var_dst: /path/on-server/to/vars.yml
 
-devture_playbook_state_preserver_commit_hash_preservation_dst: /path/on-server/to/git_hash.yml
+playbook_state_commit_hash_dst: /path/on-server/to/git_hash.yml
 ```

@@ -8,7 +8,7 @@
           You need to define a required configuration setting (`{{ item }}`) for using vars.yml-preservation.
       when: "lookup('vars', item, default='') | string | length == 0"
       with_items:
-        - devture_playbook_state_preserver_commit_hash_preservation_dst
+        - playbook_state_commit_hash_dst
 
     - name: Get local git hash  # noqa command-instead-of-module
       delegate_to: 127.0.0.1
@@ -33,10 +33,10 @@
     - name: Save git_hash.yml on target
       ansible.builtin.copy:
         content: "{{ git_hash }}"
-        dest: "{{ devture_playbook_state_preserver_commit_hash_preservation_dst }}"
-        owner: "{{ devture_playbook_state_preserver_uid }}"
-        group: "{{ devture_playbook_state_preserver_gid }}"
-        mode: "{{ devture_playbook_state_preserver_mode }}"
+        dest: "{{ playbook_state_commit_hash_dst }}"
+        owner: "{{ playbook_state_preserve_uid }}"
+        group: "{{ playbook_state_preserve_gid }}"
+        mode: "{{ playbook_state_preserve_mode }}"
 
   rescue:
     - name: Inject git not found warning
@@ -46,7 +46,7 @@
             devture_playbook_runtime_messages_list | default([])
             +
             [
-              "Couldn't find git on the local machine. Continuing without saving the playbook commit hash to the server. You can disable saving the commit hash by setting 'devture_playbook_state_preserver_commit_hash_preservation_enabled: false' in vars.yml"
+              "Couldn't find git on the local machine. Continuing without saving the playbook commit hash to the server. You can disable saving the commit hash by setting 'playbook_state_commit_hash: false' in vars.yml"
             ]
           }}
       when: "git_describe.stderr.find('git: not found') != -1"
@@ -55,5 +55,5 @@
       ansible.builtin.fail:
         msg: >-
           Error when trying to get the git hash. Please consult the error message above.
-          You can disable saving the commit hash by setting 'devture_playbook_state_preserver_commit_hash_preservation_enabled: false' in vars.yml
+          You can disable saving the commit hash by setting 'playbook_state_commit_hash: false' in vars.yml
       when: "git_describe.stderr.find('git: not found') == -1"
