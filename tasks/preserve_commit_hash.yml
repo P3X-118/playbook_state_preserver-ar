@@ -41,9 +41,9 @@
   rescue:
     - name: Inject git not found warning
       ansible.builtin.set_fact:
-        devture_playbook_runtime_messages_list: |
+        runtime_messages: |
           {{
-            devture_playbook_runtime_messages_list | default([])
+            runtime_messages | default([])
             +
             [
               "Couldn't find git on the local machine. Continuing without saving the playbook commit hash to the server. You can disable saving the commit hash by setting 'playbook_state_commit_hash: false' in vars.yml"
